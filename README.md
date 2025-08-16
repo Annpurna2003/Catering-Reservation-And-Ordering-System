@@ -63,12 +63,4 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-
-Tech used:HTML,CSS,JS,Firebase.
-
-
-
-
-
-
 export const db = getFirestore(app);
