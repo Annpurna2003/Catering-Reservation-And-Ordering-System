@@ -1,0 +1,141 @@
+<!-- user order histry -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer details</title>
+     <link href="../css/user.css"rel="stylesheet">
+ </head>
+ <body class="user-page">
+   <div class="hamburger">
+  <img src="../assets/images/hamburger.svg" width="20px" alt="Menu">
+</div>
+        <div class="container">
+    <nav class="navbar">
+<div class="logo">
+    <img src="../assets/images/logo.png" alt="Logo" width="70px">
+</div>
+<ul class="nav-links">
+    <li><a href="./dashboard.html">Home</a></li>
+        <li><a href="./showprofile.html">Profile</a></li>
+          <li><a href="./showcart.html">cart</a></li>
+           <li><a href="./Myorder.html">My Orders</a></li>
+            <li><a href="../index.html" id="logout">Logout</a></li>
+</ul>
+    </nav>
+    </div>
+<div class="order-form-box">
+    <h1 id="title1">Customer Details</h1>
+    <form>
+    <div class="order-input-group">
+<div class="order-input-field">
+   <img src="../assets/images/user.svg" alt="Logo" width="20px">
+    <input type="text" placeholder="name" id="name" required>
+</div>
+<div class="order-input-field">
+   <img src="../assets/images/food.svg" alt="Logo" width="20px">
+    <input type="text" placeholder="Product Name" id="product" required>
+</div>
+<div class="order-input-field">
+   <img src="../assets/images/email.svg" alt="Logo" width="20px">
+    <input type="email" placeholder="Email" id="email" required>
+</div>
+<div class="order-input-field">
+   <img src="../assets/images/phone.svg" alt="Logo" width="20px">
+    <input type="tel" placeholder="Contact Number" id="phone" required>
+</div>
+<div class="order-input-field">
+   <img src="../assets/images/quantity.svg" alt="Logo" width="20px">
+    <input type="number" placeholder="Quantity" id="quantity" required>
+</div>
+<div class="order-input-field">
+   <img src="../assets/images/house.svg" alt="Logo" width="20px">
+    <input type="text" placeholder="Address" id="Address" required>
+</div>
+        </div>
+        <div class="order-btn-field">
+    <button type="button" id="Placeorder">Add to Cart </button>
+
+</div>
+    </form>
+
+</div>
+<!-- Confirmation popup -->
+<div id="confirmationBox" >
+    <p style="font-size:18px;font-weight:500;color: #2f2f2f;margin-bottom: 20px;">Do you want to add this item to cart?</p>
+    <button id="confirmOrderBtn">Confirm</button>
+</div>
+<!-- Green Tick on success -->
+<div id="successTick">
+    ✔  Added!
+</div>
+ <footer class="footer">
+  <div class="footer-content">
+    <p>© 2025 Annpurna Srivastava Services All rights reserved.</p>
+    <a href="https://play.google.com" target="_blank" class="playstore-link">
+      <img src="../assets/images/app_store.png" alt="Get it on Google Play" />
+    </a>
+  </div>
+</footer>
+
+ </body>
+<script type="module">
+import { db, auth } from '../js/firebase.js';
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+document.getElementById('Placeorder').addEventListener('click', () => {
+    const name = document.getElementById('name').value;
+    const product = document.getElementById('product').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const quantity = document.getElementById('quantity').value;
+    const address = document.getElementById('Address').value;
+
+    if (!name || !product || !email || !phone || !quantity || !address) {
+        alert('Please fill all fields.');
+        return;
+    }
+    const orderData = {
+        name,
+        product,
+        email,
+        phone,
+        quantity,
+        address,
+        timestamp: serverTimestamp()
+    };
+
+    // Show confirmation popup
+    document.getElementById('confirmationBox').style.display = 'block';
+
+    document.getElementById('confirmOrderBtn').onclick = () => {
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    await addDoc(collection(db, "cart"), {
+                        ...orderData,
+                        userId: user.uid,
+                        status: "pending"
+                    });
+                    document.getElementById('confirmationBox').style.display = 'none';
+                   alert("Added successfully!");
+                    document.getElementById('successTick').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('successTick').style.display = 'none';
+                        // Optionally, redirect to another page or reset the form
+                        window.location.href = '../user/dashboard.html';
+                    }, 2000);
+                } catch (e) {
+                    alert("Failed to add: " + e.message);
+                }
+            } else {
+                alert("You must be logged in to add.");
+            }
+        });
+    };
+});
+
+</script>
+
+ </html>

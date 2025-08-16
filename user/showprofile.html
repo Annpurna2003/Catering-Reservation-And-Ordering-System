@@ -1,0 +1,82 @@
+<!-- showorder.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Show Profile</title>
+  <link href="../css/user.css" rel="stylesheet">
+  <script src="../js/firebase.js" type="module"></script>
+</head>
+<body class="user-page">
+  <div class="hamburger">
+  <img src="../assets/images/hamburger.svg" width="20px" alt="Menu">
+</div>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo">
+        <img src="../assets/images/logo.png" alt="Logo" width="70px">
+      </div>
+      <ul class="nav-links">
+        <li><a href="dashboard.html">Home</a></li>
+        <li><a href="showprofile.html">Profile</a></li>
+        <li><a href="showcart.html">Cart</a></li>
+        <li><a href="showorder.html">My Orders</a></li>
+        <li><a href="../index.html" id="logout">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <h2>My Profile</h2>
+  <div class="profile-content">
+    <table border="1" cellpadding="10" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody id="profile-container"></tbody>
+    </table>
+  </div>
+<script type="module">
+  import { db, auth } from '../js/firebase.js';
+  import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+  const profileContainer = document.getElementById("profile-container");
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        // Query the register collection where email matches logged-in user
+        const q = query(collection(db, "register"), where("email", "==", user.email));
+        const profileSnapshot = await getDocs(q);
+
+        if (profileSnapshot.empty) {
+          profileContainer.innerHTML = `<tr><td colspan="2">No profile found</td></tr>`;
+          return;
+        }
+
+        profileSnapshot.forEach(doc => {
+          const profile = doc.data();
+          const row = `
+            <tr>
+              <td>${profile.name || "N/A"}</td>
+              <td>${profile.email || "N/A"}</td>
+            </tr>
+          `;
+          profileContainer.innerHTML += row;
+        });
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        profileContainer.innerHTML = `<tr><td colspan="2">Error loading profile</td></tr>`;
+      }
+    } else {
+      profileContainer.innerHTML = `<tr><td colspan="2">User not logged in</td></tr>`;
+    }
+  });
+</script>
+<script src="../js/user.js" type="module"></script>
+</body>
+</html>

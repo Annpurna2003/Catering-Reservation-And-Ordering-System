@@ -1,0 +1,86 @@
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Cart</title>
+  <link href="../css/user.css"rel="stylesheet">
+</head>
+<body class="user-page">
+ <div class="hamburger">
+  <img src="../assets/images/hamburger.svg" width="20px" alt="Menu">
+</div>
+        <div class="container">
+    <nav class="navbar">
+<div class="logo">
+    <img src="../assets/images/logo.png" alt="Logo" width="70px">
+</div>
+<div class="search-bar">
+    <input type="text" placeholder="Search..." id="searchInput">
+    <button onclick="handleSearch()">Search</button>
+</div>
+<ul class="nav-links">
+    <li><a href="dashboard.html">Home</a></li>
+        <li><a href="showprofile.html">Profile</a></li>
+          <li><a href="showcart.html">cart</a></li>
+           <li><a href="showorder.html">My orders</a></li>
+            <li><a href="../index.html" id="logout">Logout</a></li>
+</ul>
+    </nav>
+    </div>
+  <h2>My Cart</h2>
+  <div class="cart-content">
+  <div id="cart-container">
+  </div>
+   <button id="buy-now">Buy Now</button>
+  </div>
+<script type="module">
+import { db, auth } from '../js/firebase.js';
+import { 
+  collection, 
+  addDoc, 
+  getDocs,     
+  deleteDoc,   
+  doc 
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+document.getElementById("buy-now").addEventListener("click", async () => {
+  try {
+    const cartSnapshot = await getDocs(collection(db, "cart"));
+    
+    if (cartSnapshot.empty) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    // Copy each cart item into orders collection
+    for (let cartDoc of cartSnapshot.docs) {
+      const itemData = cartDoc.data();
+
+      await addDoc(collection(db, "orders"), {
+        ...itemData,
+        orderDate: new Date(),
+        status: "Pending"
+      });
+
+     
+      await deleteDoc(doc(db, "cart", cartDoc.id));
+    }
+
+    alert("Order placed successfully!");
+   window.location.href = '../user/dashboard.html';
+  
+    document.getElementById("cart-container").innerHTML = "";
+  } catch (error) {
+    console.error("Error while placing order:", error);
+    alert("Something went wrong while placing your order.");
+  }
+});
+</script>
+      <script src="../js/user.js" type="module"></script>
+ <script src="../js/firebase.js" type="module"></script>
+
+</body>
+</html>

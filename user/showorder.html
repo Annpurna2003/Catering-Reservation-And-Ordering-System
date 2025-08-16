@@ -1,0 +1,93 @@
+<!-- showorder.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders</title>
+  <link href="../css/user.css" rel="stylesheet">
+  <script src="../js/firebase.js" type="module"></script>
+</head>
+<body class="user-page">
+ <div class="hamburger">
+  <img src="../assets/images/hamburger.svg" width="20px" alt="Menu">
+</div>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo">
+        <img src="../assets/images/logo.png" alt="Logo" width="70px">
+      </div>
+      <ul class="nav-links">
+        <li><a href="dashboard.html">Home</a></li>
+        <li><a href="showprofile.html">Profile</a></li>
+        <li><a href="showcart.html">Cart</a></li>
+        <li><a href="showorder.html">My Orders</a></li>
+        <li><a href="../index.html" id="logout">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <h2>My Orders</h2>
+  <div class="orders-content">
+    <table border="1" cellpadding="10" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Address</th>
+          <th>Email</th>
+          <th>Name</th>
+          <th>Product</th>
+          <th>Timestamp</th>
+           <th>Status</th>
+             <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody id="orders-container"></tbody>
+    </table>
+  </div>
+  <script type="module">
+    import { db, auth } from '../js/firebase.js';
+    import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+    const ordersContainer = document.getElementById("orders-container");
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        alert("Please login to view your orders.");
+        window.location.href = "../index.html";
+        return;
+      }
+
+      try {
+        // fetch orders for the logged-in user
+        const q = query(collection(db, "orders"), where("userId", "==", user.uid));
+        const ordersSnapshot = await getDocs(q);
+
+        if (ordersSnapshot.empty) {
+          ordersContainer.innerHTML = `<tr><td colspan="5">No orders found</td></tr>`;
+          return;
+        }
+
+        ordersSnapshot.forEach(doc => {
+          const order = doc.data();
+          const row = `
+            <tr>
+              <td>${order.address || "N/A"}</td>
+              <td>${order.email || "N/A"}</td>
+              <td>${order.name || "N/A"}</td>
+              <td>${order.product || "N/A"}</td>
+               <td>${order.orderDate?.toDate().toLocaleString() || "N/A"}</td>
+              <td>${order.status || "Pending"}</td>
+               <td>${order.quantity || "N/A"}</td>
+             
+            </tr>
+          `;
+          ordersContainer.innerHTML += row;
+        });
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        ordersContainer.innerHTML = `<tr><td colspan="5">Error loading orders</td></tr>`;
+      }
+    });
+  </script>
+  <script src="../js/user.js" type="module"></script>
+</body>
+</html>

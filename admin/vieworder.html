@@ -1,0 +1,111 @@
+<!-- view user orders -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Orders</title>
+    <link href="../css/user.css" rel="stylesheet">
+    <link href="../css/admin.css" rel="stylesheet">
+    <script href="../js/admin.js"></script>
+    <style>
+         h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: white;
+    backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+    }
+       table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+    }
+
+    thead {
+      background-color: rgb(243, 97, 97);
+      color: white;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tbody tr:hover {
+      background-color: #e0f0ff;
+    }
+
+    .status {
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 0.9em;
+      font-weight: bold;
+    }
+  </style>
+ </head>
+ <body>
+<div class="container">
+    <nav class="navbar">
+<div class="logo">
+    <img src="../assets/images/logo.png" alt="Logo" width="70px">
+</div>
+<ul class="nav-links">
+  
+<li><a href="../index.html" id="logout">Logout</a></li>
+</ul>
+    </nav>
+    </div>
+ <!-- //order details section -->
+  <!-- Orders Table -->
+<h2>All Orders</h2>
+<table id="ordersTable" border="1">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody id="ordersBody">
+  </tbody>
+</table>
+<script type="module">
+    import { db } from '../js/firebase.js';
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+async function loadOrders() {
+  const ordersRef = collection(db, "orders");
+  const querySnapshot = await getDocs(ordersRef);
+
+  const ordersBody = document.getElementById("ordersBody");
+  ordersBody.innerHTML = ""; // Clear existing rows
+
+  querySnapshot.forEach((doc) => {
+    const order = doc.data();
+    const row = `
+      <tr>
+       
+        <td>${order.product}</td>
+        <td>${order.quantity}</td>
+     
+        <td>${order.status || 'Placed'}</td>
+      </tr>
+    `;
+    ordersBody.innerHTML += row;
+  });
+}
+// Load orders on page load
+window.onload = loadOrders;
+</script>
+ </body>
+ </html>

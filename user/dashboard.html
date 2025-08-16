@@ -1,0 +1,195 @@
+<!-- user dashboard -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User-Dashboard</title>
+    <link href="../css/user.css"rel="stylesheet">
+    <script src="../js/user.js" type="module"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
+</head>
+<body class="user-page">
+<!-- Hamburger button -->
+ <div class="hamburger">
+  <img src="../assets/images/hamburger.svg" width="20px" alt="Menu">
+</div>
+<div class="container">
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../assets/images/logo.png" alt="Logo" width="70px">
+    </div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search..." id="searchInput">
+      <button onclick="handleSearch()">Search</button>
+    </div>
+    <!-- This is menu  toggle -->
+    <ul class="nav-links">
+      <li><a href="./dashboard.html">Home</a></li>
+      <li><a href="./showprofile.html">Profile</a></li>
+      <li><a href="./showcart.html">Cart</a></li>
+      <li><a href="./showorder.html">My Orders</a></li>
+      <li><a href="../index.html" id="logout">Logout</a></li>
+    </ul>
+  </nav>
+</div>
+    <!-- content section -->
+<div class="hero">
+  <div class="hero-text">
+    <h1>Food is only one aspect of an experience.</h1>
+    <p>We are the most favoured and quickest meal delivery service...</p>
+  </div>
+  <div class="buttons">
+    <button class="btn red" onclick="location.href='#order-section'">Order Immediately</button>
+  </div>
+</div>
+   <!-- popular section -->
+     <section class="popular-menu">
+    <h2 class="popular" id="order-section">Popular Menus</h2>
+    <div class="menu-items">
+      <div class="item">
+        <img src="../assets/images/aloo_tikki.webp" alt="Aloo Tikki" width="100px"/>
+        <h4>Aloo Tikki</h4>
+        <p>&#8377;42</p>
+        <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+      <div class="item">
+        <img src="../assets/images/aloo-rasedar-recipe.jpg" alt="Aloo rasedar recipe" width="100px"/>
+        <h4>Aloo rasedar recipe</h4>
+        <p>&#8377;100</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+      <div class="item">
+        <img src="../assets/images/basmati_rice.webp" alt="Basmati Rice" width="100px" />
+        <h4>Basmati Rice</h4>
+        <p>&#8377;200</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+<div class="item">
+        <img src="../assets/images/dal_makhni.webp" alt="Dal Makhni Recipe" width="100px" />
+        <h4>Dal Makhni</h4>
+        <p>&#8377;65</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+      <div class="item">
+        <img src="../assets/images/egg_curry.webp" alt="Eye Curry" width="100px" />
+        <h4>Egg Curry</h4>
+        <p>&#8377;45</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+      <div class="item">
+        <img src="../assets/images/jalebi-recipe-1.jpg" alt="Jalebi" width="100px" />
+        <h4>Jalebi</h4>
+        <p>&#8377;20</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+      <div class="item">
+        <img src="../assets/images/khasta-kachori-recipe.webp" alt="khasta-kachori-recipe" width="100px" />
+        <h4>Khasta kachori recipe</h4>
+        <p>&#8377;20</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+       <div class="item">
+        <img src="../assets/images/litti chokha.png" alt="litti chokha" width="100px" />
+        <h4>Litti Chokha</h4>
+        <p>&#8377;30</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+          <div class="item">
+        <img src="../assets/images/malai_kofta.jpg" alt="malai_kofta" width="100px" />
+        <h4>malai_kofta</h4>
+        <p>&#8377;150</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+           <div class="item">
+        <img src="../assets/images/malpua.avif" alt="malpua" width="100px" />
+        <h4>malpua </h4>
+        <p>&#8377;50</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+           <div class="item">
+        <img src="../assets/images/naan.webp" alt="naan " width="100px" />
+        <h4>Naan Recipe</h4>
+        <p>&#8377;15</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+             <div class="item">
+        <img src="../assets/images/pallak_paneer.webp" alt="palak_paneer " width="100px" />
+        <h4>Palak Paneer Recipe</h4>
+        <p>&#8377;250</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+    <div class="item">
+        <img src="../assets/images/phara.webp" alt="phara " width="100px" />
+        <h4>Phara</h4>
+        <p>Currently not available</p>
+        <button class="btn red">Order Now</button>
+      </div>
+        <div class="item">
+        <img src="../assets/images/samosa.jpg" alt="samosa" width="100px" />
+        <h4>Samosa</h4>
+        <p>&#8377;10</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+        <div class="item">
+        <img src="../assets/images/veg_biriyani.webp" alt="veg_biriyani " width="100px" />
+        <h4>veg_biriyani</h4>
+        <p>&#8377;80</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+        <div class="item">
+        <img src="../assets/images/veg_korma.webp" alt="veg_korma" width="100px" />
+        <h4>Veg Korma</h4>
+        <p>&#8377;300</p>
+         <button class="btn red" onclick="location.href='addtocart.html'">Order Now</button>
+      </div>
+
+</div>
+<section class="reviews">
+  <h2 class="section-title">Customer Reviews</h2>
+  <div class="review-cards">
+    <div class="review">
+      <p>"The food was fresh and delicious! Will order again."</p>
+      <span>— Sayan Mukherjee</span>
+    </div>
+    <div class="review">
+      <p>"Super fast delivery and friendly service. Loved it!"</p>
+      <span>— Gaurav Chakraborthy</span>
+    </div>
+    <div class="review">
+      <p>"Great variety on the menu. The biryani was amazing."</p>
+      <span>— Abhishek Kushwaha</span>
+    </div>
+      <div class="review">
+      <p>"Wow What a Food!"</p>
+      <span>— Shashwata Kanjilal</span>
+    </div>
+  </div>
+</section>
+<!-- footer section  -->
+ <footer class="footer">
+  <div class="footer-content">
+    <p>© 2025 Annpurna Srivastava Services All rights reserved.</p>
+    <a href="https://play.google.com" target="_blank" class="playstore-link">
+      <img src="../assets/images/app_store.png" alt="Get it on Google Play" />
+    </a>
+  </div>
+</footer>
+</body>
+<script>
+    function handleSearch(){
+        const text=document.body.innerHTML;
+        const searchTerm=document.getElementById("searchInput").value.trim();
+
+        //remove previous highlights
+        const cleanText=text.replace(/<mark>|<\/mark>/g, "");
+            document.body.innerHTML=cleanText;
+            if(searchTerm==="")return;
+            //Highlight new matches
+              const regex = new RegExp(`(${searchTerm})`, "gi");
+         document.body.innerHTML = document.body.innerHTML.replace(regex, "<mark>$1</mark>");
+    }
+</script>
+</html>

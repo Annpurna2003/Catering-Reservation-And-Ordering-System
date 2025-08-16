@@ -1,0 +1,89 @@
+<!-- user dashboard -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin-Dashboard</title>
+    <link href="../css/user.css"rel="stylesheet">
+     <!-- <link href="../css/admin.css" rel="stylesheet"> -->
+     <script href="../js/admin.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
+<style>
+    .admin-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+.btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #e76254;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+</style>
+</head>
+<body>
+    <div class="container">
+    <nav class="navbar">
+<div class="logo">
+    <img src="../assets/images/logo.png" alt="Logo" width="70px">
+</div>
+<div class="search-bar">
+    <input type="text" placeholder="Search..." id="searchInput">
+    <button onclick="handleSearch()">Search</button>
+</div>
+<ul class="nav-links">
+            <li><a href="../index.html" id="logout">Logout</a></li>
+</ul>
+    </nav>
+    </div>
+    <!-- content section -->
+<div class="hero">
+  <div class="hero-text">
+    <h1>Food is only one aspect of an experience.</h1>
+    <p>We are the most favoured and quickest meal delivery service...</p>
+  </div>
+<div class="admin-buttons">
+  <button class="btn" onclick="location.href='add-product.html'">📤 Upload Product Details</button>
+  <button class="btn" onclick="location.href='vieworder.html'">📄 View Orders</button>
+</div>
+</div>   
+<!-- footer section  -->
+ <footer class="footer">
+  <div class="footer-content">
+    <p>© 2025 Annpurna Srivastava Services All rights reserved.</p>
+    <a href="https://play.google.com" target="_blank" class="playstore-link">
+      <img src="../assets/images/app_store.png" alt="Get it on Google Play" />
+    </a>
+  </div>
+</footer>
+</body>
+<script>
+    function handleSearch(){
+        const text=document.body.innerHTML;
+        const searchTerm=document.getElementById("searchInput").value.trim();
+
+        //remove previous highlights
+        const cleanText=text.replace(/<mark>|<\/mark>/g, "");
+            document.body.innerHTML=cleanText;
+            if(searchTerm==="")return;
+            //Highlight new matches
+              const regex = new RegExp(`(${searchTerm})`, "gi");
+         document.body.innerHTML = document.body.innerHTML.replace(regex, "<mark>$1</mark>");
+    }
+</script>
+</html>

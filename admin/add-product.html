@@ -1,0 +1,120 @@
+<!-- upload food item -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link href="../css/user.css"rel="stylesheet"> -->
+    <link href="../css/admin.css" rel="stylesheet">
+     <script href="../js/admin.js"></script>
+ </head>
+ <body>
+        <div class="container">
+    <nav class="navbar">
+<div class="logo">
+    <img src="../assets/images/logo.png" alt="Logo" width="70px">
+</div>
+<ul class="nav-links">
+            <li><a href="../index.html" id="logout">Logout</a></li>
+</ul>
+    </nav>
+    </div>
+    <!-- //Product details section -->
+     <main class="center-wrapper">
+     <div class="product-form-box">
+    <h1 id="title1">Add Product Details</h1>
+    <form>
+    <div class="product-input-group">
+<div class="product-input-field">
+    <input type="text" placeholder="Add Product name" id="prodname" required>
+</div>
+<div class="product-input-field">
+  <textarea id="description" placeholder="Enter product description" rows="4" required></textarea>
+</div>
+<div class="product-input-field">
+    <input type="tel" placeholder="Price" id="price" required>
+</div>
+<div class="product-input-field">
+  <label for="category">Category</label><br/>
+  <select id="category" required>
+    <option value="">--Select Category--</option>
+    <option value="Veg">Veg</option>
+    <option value="Non-Veg">Non-Veg</option>
+    <option value="Vegan">Vegan</option>
+  </select>
+</div>
+        </div>
+        <div class="product-btn-field">
+    <button type="button" id="details">Add  </button>
+</div>
+    </form>
+</div>
+     </main>
+<!-- Confirmation popup -->
+<div id="confirmationBox" >
+    <p style="font-size:18px;font-weight:500;color: #2f2f2f;margin-bottom: 20px;">Do you want to add these details?</p>
+    <button id="confirmOrderBtn">Confirm</button>
+</div>
+ <footer class="footer">
+  <div class="footer-content">
+    <p>© 2025 Annpurna Srivastava Services All rights reserved.</p>
+    <a href="https://play.google.com" target="_blank" class="playstore-link">
+      <img src="../assets/images/app_store.png" alt="Get it on Google Play" />
+    </a>
+  </div>
+</footer>
+ <script type="module">
+import { db, auth } from '../js/firebase.js';
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
+document.getElementById('details').addEventListener('click', () => {
+    const prodname = document.getElementById('prodname').value;
+    const description = document.getElementById('description').value;
+    const price = document.getElementById('price').value;
+    const category = document.getElementById('category').value;
+    if (!prodname || !description || !price || !category ) {
+        alert('Please fill all fields.');
+        return;
+    }
+    // Show confirmation popup
+  document.getElementById('confirmationBox').style.display = 'block';
+   document.getElementById('confirmOrderBtn').onclick = async () => {
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    // Upload image to Firebase Storage
+                    const storage = getStorage();
+                    const productData = {
+                        prodname,
+                        description,
+                        price,
+                        category,
+                        timestamp: serverTimestamp(),
+                        userId: user.uid,
+                        status: "Added"
+                    };
+                    await addDoc(collection(db, "proddetails"), productData);
+                    document.getElementById('confirmationBox').style.display = 'none';
+                    alert("Details Added successfully!");
+                 
+                    // document.getElementById('successTick').style.display = 'block';
+
+                    setTimeout(() => {
+                        // document.getElementById('successTick').style.display = 'none';
+                        window.location.href = '../admin/dashboard.html';
+                    }, 2000);
+
+                } catch (e) {
+                    alert("Failed to add details: " + e.message);
+                }
+            } else {
+                alert("You must be logged in to add product details.");
+            }
+        });
+    };
+});
+  </script>  
+ </body>
+ </html>
